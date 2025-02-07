@@ -4,3 +4,6 @@
 # modules
 node_modules
 public
+
+#database
+config/*
