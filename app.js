@@ -3,14 +3,14 @@ import path from "path";
 import cors from "cors";
 import "dotenv/config";
 import { router } from "./routes/Router.js";
-import { db } from "./config/db.js"
+import { conn } from "./config/db.js";
 
 const app = express();
 // config JSON and form data response
 app.use(express.json());
-app.use(express.urlencoded({extended: false}));
+app.use(express.urlencoded({ extended: false }));
 // solve cors
-app.use(cors({credentials: true, origin: "http://localhost:3000"}));
+app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
 // upload directory
 app.use("/uploads", express.static(path.join(import.meta.dirname, "uploads")));
 // DB connection
