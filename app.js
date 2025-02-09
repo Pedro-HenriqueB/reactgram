@@ -8,7 +8,7 @@ import { conn } from "./config/db.js";
 const app = express();
 // config JSON and form data response
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 // solve cors
 app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
 // upload directory
