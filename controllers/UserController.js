@@ -41,5 +41,26 @@ const register = async (req, res) => {
     token: generateToken(newUser.id),
   });
 };
+// Sign user in
+const login = async (req, res) => {
+  const { email, password } = req.body;
+  const user = await User.findOne({ email });
+  // check if user exists
+  if (!user) {
+    res.status(400).json({ errors: ["Usuario nao encontrado."] });
+    return;
+  }
+  // check if password matches
+  if (!bcrypt.compare(password, user.password)) {
+    res.status(400).json({ errors: ["Senha invalida"] });
+    return;
+  }
 
-export { register };
+  res.status(201).json({
+    _id: user._id,
+    profileImage: user.profileImage,
+    token: generateToken(user.id),
+  });
+};
+
+export { register, login };
