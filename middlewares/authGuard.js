@@ -1,6 +1,7 @@
-import User from "../models/User";
+import User from "../models/User.js";
 import jwt from "jsonwebtoken";
-const jwtSecret = process.env.jwtSecret;
+import "dotenv/config";
+const jwtSecret = process.env.JWT_SECRET;
 
 const authGuard = async (req, res, next) => {
   const authHeader = req.headers["authorization"];
@@ -13,6 +14,7 @@ const authGuard = async (req, res, next) => {
     req.user = await User.findById(verified.id).select("-password");
     next();
   } catch (error) {
+    console.log(error);
     res.status(401).json({ errors: ["Token invalido!"] });
   }
 };
