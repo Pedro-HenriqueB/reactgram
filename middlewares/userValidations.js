@@ -40,4 +40,17 @@ const loginValidation = () => {
   ];
 };
 
-export { userCreateValidation, loginValidation };
+const userUpdateValidation = () => {
+  return [
+    body("name")
+      .optional()
+      .isLength({ min: 3 })
+      .withMessage("O nome precisa conter pelomenos 3 caracteres."),
+    body("password")
+      .optional()
+      .isLength({ min: 5 })
+      .withMessage("A senha precisa ter no minimo 5 caracteres"),
+  ];
+};
+
+export { userCreateValidation, loginValidation, userUpdateValidation };

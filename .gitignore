@@ -7,3 +7,6 @@ public
 
 #database
 config/*
+
+#upload
+uploads/
