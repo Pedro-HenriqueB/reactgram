@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {
   getCurrentUser,
+  getUserById,
   login,
   register,
   update,
@@ -27,4 +28,5 @@ userRoutes.put(
   imageUpload.single("profileImage"),
   update
 );
+userRoutes.get("/:id", getUserById);
 export { userRoutes };
