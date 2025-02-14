@@ -6,6 +6,7 @@ import { imageUpload } from "../middlewares/imageUpload.js";
 import {
   deletePhoto,
   getAllPhotos,
+  getUserPhotos,
   insertPhoto,
 } from "../controllers/PhotoController.js";
 
@@ -22,5 +23,6 @@ photoRoutes.post(
 );
 photoRoutes.delete("/:id", authGuard, deletePhoto);
 photoRoutes.get("/", authGuard, getAllPhotos);
+photoRoutes.get("/user/:id", authGuard, getUserPhotos);
 
 export { photoRoutes };
