@@ -70,7 +70,7 @@ const getPhotoById = async (req, res) => {
     const photo = await Photo.findById(id);
     res.status(200).json(photo);
   } catch (error) {
-    res.status(404).json({ errors: ["Foto nao encontrada!"] });
+    res.status(404).json({ errors: ["Fotox nao encontrada!"] });
   }
 };
 
@@ -155,6 +155,16 @@ const commentPhoto = async (req, res) => {
       message: "O comentario foi adicionado com sucesso!",
     });
   } catch (error) {
+    res.status(500).json({ message: ["Internal server error."] });
+  }
+};
+
+const searchPhotos = async (req, res) => {
+  try {
+    const { q } = req.query;
+    const photos = await Photo.find({ title: new RegExp(q, "i") }).exec();
+    res.status(200).json(photos);
+  } catch (error) {
     console.log(error);
     res.status(500).json({ message: ["Internal server error."] });
   }
@@ -169,4 +179,5 @@ export {
   updatePhoto,
   likePhoto,
   commentPhoto,
+  searchPhotos,
 };

@@ -15,6 +15,7 @@ import {
   getUserPhotos,
   insertPhoto,
   likePhoto,
+  searchPhotos,
   updatePhoto,
 } from "../controllers/PhotoController.js";
 
@@ -33,6 +34,9 @@ photoRoutes.post(
 photoRoutes.delete("/:id", authGuard, deletePhoto);
 photoRoutes.get("/", authGuard, getAllPhotos);
 photoRoutes.get("/user/:id", authGuard, getUserPhotos);
+photoRoutes.get("/search", authGuard, searchPhotos);
+//Rota search photos primeiro
+//Rotas com mesmo verbo e mesma quantidade de parametros, a ordem influencia
 photoRoutes.get("/:id", authGuard, getPhotoById);
 photoRoutes.put(
   "/:id",
