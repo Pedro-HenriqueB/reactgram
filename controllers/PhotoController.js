@@ -100,6 +100,66 @@ const updatePhoto = async (req, res) => {
   }
 };
 
+const likePhoto = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const reqUser = req.user;
+    const photo = await Photo.findById(id);
+    // check if photo exists
+    if (!photo) {
+      res.status(404).json({ errors: ["Foto nao encontrada."] });
+      return;
+    }
+    // Check if user alredy liked the photo
+    if (photo.likes.includes(reqUser._id)) {
+      res.status(422).json({ errors: ["Voce ja curtiu a foto."] });
+      return;
+    }
+    // Put user id in likes array
+    photo.likes.push(reqUser._id);
+    photo.save();
+    res.status(200).json({
+      photoId: id,
+      userId: reqUser._id,
+      message: "A foto foi curtida.",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: ["Internal server error."] });
+  }
+};
+
+const commentPhoto = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { comment } = req.body;
+    const reqUser = req.user;
+    const user = await User.findById(reqUser._id);
+    const photo = await Photo.findById(id);
+    // check if photo exists
+    if (!photo) {
+      res.status(404).json({ errors: ["Foto nao encontrada."] });
+      return;
+    }
+    // Add comment in comments array
+    const userComment = {
+      comment,
+      userName: user.name,
+      userImage: user.profileImage,
+      userId: user._id,
+    };
+    photo.comments.push(userComment);
+    photo.save();
+    res.status(200).json({
+      comment: userComment,
+      message: "O comentario foi adicionado com sucesso!",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: ["Internal server error."] });
+  }
+};
+
 export {
   insertPhoto,
   deletePhoto,
@@ -107,4 +167,6 @@ export {
   getUserPhotos,
   getPhotoById,
   updatePhoto,
+  likePhoto,
+  commentPhoto,
 };

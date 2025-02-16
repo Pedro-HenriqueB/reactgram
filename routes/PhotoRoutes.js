@@ -1,5 +1,6 @@
 import { Router } from "express";
 import {
+  commentValidation,
   photoInsertValidation,
   photoUpdateValidation,
 } from "../middlewares/photoValidation.js";
@@ -7,11 +8,13 @@ import { authGuard } from "../middlewares/authGuard.js";
 import { validate } from "../middlewares/handleValidation.js";
 import { imageUpload } from "../middlewares/imageUpload.js";
 import {
+  commentPhoto,
   deletePhoto,
   getAllPhotos,
   getPhotoById,
   getUserPhotos,
   insertPhoto,
+  likePhoto,
   updatePhoto,
 } from "../controllers/PhotoController.js";
 
@@ -37,5 +40,13 @@ photoRoutes.put(
   photoUpdateValidation(),
   validate,
   updatePhoto
+);
+photoRoutes.put("/like/:id", authGuard, likePhoto);
+photoRoutes.put(
+  "/comments/:id",
+  authGuard,
+  commentValidation(),
+  validate,
+  commentPhoto
 );
 export { photoRoutes };
